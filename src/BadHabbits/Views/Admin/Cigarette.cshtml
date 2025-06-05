@@ -1,0 +1,59 @@
+﻿@model CigaretteViewModelItem
+<div class="container mt-5">
+	<div class="row justify-content-center">
+		<div class="col-md-6">
+			<div class="card shadow-sm border-0 rounded-4 bg-light">
+				<div class="card-body p-4">
+					<h4 class="mb-4 text-center text-secondary">Add Cigarette</h4>
+
+					@using (Html.BeginForm("Cigarette", "Admin", FormMethod.Post, new Dictionary<string, object> { { "class", "form" }, { "enctype", "multipart/form-data" } }))
+					{
+						<div class="mb-3">
+							<label asp-for="Brand" class="form-label text-secondary"></label>
+							@Html.TextBoxFor(x => x.Brand, new { @class = "form-control bg-white border border-secondary-subtle", autocomplete = "off", tabindex = 1 })
+							@Html.ValidationMessageFor(x => x.Brand, "", new { @class = "text-danger small" })
+						</div>
+
+						<div class="mb-3">
+							<label asp-for="Name" class="form-label text-secondary"></label>
+							@Html.TextBoxFor(x => x.Name, new { @class = "form-control bg-white border border-secondary-subtle", autocomplete = "off", tabindex = 2 })
+							@Html.ValidationMessageFor(x => x.Name, "", new { @class = "text-danger small" })
+						</div>
+
+						<div class="mb-3 form-check">
+							@Html.CheckBoxFor(x => x.WithFilter, new { @class = "form-check-input", tabindex = 3 })
+							<label asp-for="WithFilter" class="form-check-label text-secondary"></label>
+							@Html.ValidationMessageFor(x => x.WithFilter, "", new { @class = "text-danger small" })
+						</div>
+
+						<div class="mb-3">
+							<label asp-for="NicotineAmount" class="form-label text-secondary"></label>
+							@Html.TextBoxFor(x => x.NicotineAmount, new { @class = "form-control bg-white border border-secondary-subtle", autocomplete = "off", tabindex = 4 })
+							@Html.ValidationMessageFor(x => x.NicotineAmount, "", new { @class = "text-danger small" })
+						</div>
+
+						<div class="mb-3">
+							<label asp-for="TarAmount" class="form-label text-secondary"></label>
+							@Html.TextBoxFor(x => x.TarAmount, new { @class = "form-control bg-white border border-secondary-subtle", autocomplete = "off", tabindex = 5 })
+							@Html.ValidationMessageFor(x => x.TarAmount, "", new { @class = "text-danger small" })
+						</div>
+
+						<div class="mb-3">
+							<label asp-for="Price" class="form-label text-secondary"></label>
+							@Html.TextBoxFor(x => x.Price, new { @class = "form-control bg-white border border-secondary-subtle", autocomplete = "off", tabindex = 6 })
+							@Html.ValidationMessageFor(x => x.Price, "", new { @class = "text-danger small" })
+						</div>
+
+						<div class="mb-4">
+							<label asp-for="Picture" class="form-label text-secondary"></label>
+							@Html.TextBoxFor(x => x.Picture, new { @class = "form-control bg-white border border-secondary-subtle", type = "file" })
+							@Html.ValidationMessageFor(x => x.Picture, "", new { @class = "text-danger small" })
+						</div>
+
+						<button type="submit" class="btn btn-secondary w-100 rounded-3">Submit</button>
+					}
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

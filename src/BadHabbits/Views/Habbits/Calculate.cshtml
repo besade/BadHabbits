@@ -1,0 +1,108 @@
+﻿@model CalculateViewModel
+
+<div class="container py-5">
+	<h1 class="text-center mb-5 text-light">Your Cigarette Spending Summary</h1>
+
+	<div class="row justify-content-center">
+		<div class="col-md-8 col-lg-6">
+			<div class="card h-100 text-light shadow-sm border-0 rounded-4" style="background-color: #2c2c2c;">
+
+				<div class="card-img-top-wrapper d-flex justify-content-center align-items-center mt-3 px-3" style="height: 200px; overflow: hidden;">
+					<img src="@Url.Action("GetImage", "Habbits", new { cigaretteId = @Model.CigaretteId })"
+						 alt="Error loading image!"
+						 class="img-fluid"
+						 style="max-height: 100%; object-fit: contain;" />
+				</div>
+
+				<div class="card-body text-center">
+					<h5 class="card-title fw-bold mb-4">@Model.Brand @Model.Name</h5>
+					<table class="table table-dark table-bordered rounded mb-4">
+						<tbody>
+							<tr>
+								<td><strong>Nicotine</strong></td>
+								<td>@Model.NicotineAmount</td>
+							</tr>
+							<tr>
+								<td><strong>Tar</strong></td>
+								<td>@Model.TarAmount</td>
+							</tr>
+							<tr>
+								<td><strong>With Filter</strong></td>
+								<td>@(Model.WithFilter ? "Yes" : "No")</td>
+							</tr>
+							<tr>
+								<td><strong>Price per pack</strong></td>
+								<td id="pricePerPack">@Model.Price</td>
+							</tr>
+						</tbody>
+					</table>
+					<table class="table table-dark table-bordered rounded">
+						<tbody>
+							<tr>
+								<td><strong>Cigarettes per day</strong></td>
+								<td>
+									<input type="number"
+										   class="form-control form-control-sm bg-dark text-light border-light"
+										   id="cigarettesPerDay"
+										   min="1"
+										   value="@Model.CigarettesPerDay"
+										   oninput="recalculate()"
+										   data-price="@Model.Price"
+										   data-cigarettes-in-pack="20" />
+								</td>
+							</tr>
+							<tr>
+								<td><strong>Daily spend</strong></td>
+								<td id="dailySpend">@Model.TotalSumPerDay ₴</td>
+							</tr>
+							<tr>
+								<td><strong>Weekly spend</strong></td>
+								<td id="weeklySpend">@Model.TotalSumPerWeek ₴</td>
+							</tr>
+							<tr>
+								<td><strong>Monthly spend</strong></td>
+								<td id="monthlySpend">@Model.TotalSumPerMonth ₴</td>
+							</tr>
+							<tr>
+								<td><strong>Half-year spend</strong></td>
+								<td id="halfYearSpend">@Model.TotalSumPerHalfYear ₴</td>
+							</tr>
+							<tr>
+								<td><strong>Yearly spend</strong></td>
+								<td id="yearlySpend">@Model.TotalSumPerYear ₴</td>
+							</tr>
+						</tbody>
+					</table>
+
+					<a asp-controller="Habbits"
+					   asp-action="Catalog"
+					   class="btn btn-outline-light btn-sm px-4 mt-3 rounded-pill shadow-sm">Back to List</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+@section Scripts {
+	<script>
+		function recalculate() {
+			const cigarettesPerDay = parseFloat(document.getElementById("cigarettesPerDay").value);
+			const pricePerPack = parseFloat(document.getElementById("cigarettesPerDay").dataset.price);
+			const cigarettesInPack = parseInt(document.getElementById("cigarettesPerDay").dataset.cigarettesInPack);
+
+			if (!cigarettesPerDay || cigarettesPerDay <= 0) return;
+
+			const dailySpend = (cigarettesPerDay / cigarettesInPack) * pricePerPack;
+			const weeklySpend = dailySpend * 7;
+			const monthlySpend = dailySpend * 30;
+			const halfYearSpend = dailySpend * 182.5;
+			const yearlySpend = dailySpend * 365;
+
+			document.getElementById("dailySpend").textContent = dailySpend.toFixed(2) + " ₴";
+			document.getElementById("weeklySpend").textContent = weeklySpend.toFixed(2) + " ₴";
+			document.getElementById("monthlySpend").textContent = monthlySpend.toFixed(2) + " ₴";
+			document.getElementById("halfYearSpend").textContent = halfYearSpend.toFixed(2) + " ₴";
+			document.getElementById("yearlySpend").textContent = yearlySpend.toFixed(2) + " ₴";
+		}
+	</script>
+}
